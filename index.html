@@ -1,0 +1,990 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b20">
+<title>SHIDO DEV | Digital Experience</title>
+<meta name="description" content="SHIDO DEV - Développement, intelligence artificielle et technologies numériques.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:#080b20;
+  --bg2:#0d1230;
+  --panel:rgba(18,26,61,.72);
+  --blue:#426bff;
+  --cyan:#48dcff;
+  --purple:#9665ff;
+  --white:#f4f6ff;
+  --muted:#9ca8cc;
+  --border:rgba(116,146,255,.16);
+}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+}
+
+body {
+  background:var(--bg);
+  color:var(--white);
+  font-family:Inter,sans-serif;
+  overflow-x:hidden;
+}
+
+a {color:inherit;text-decoration:none}
+button {font:inherit}
+
+#loader {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:#080b20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:22px;
+  transition:.8s;
+}
+
+#loader.hide {
+  opacity:0;
+  visibility:hidden;
+}
+
+.loader-logo {
+  font:900 32px 'Space Grotesk';
+  letter-spacing:8px;
+  background:linear-gradient(90deg,#fff,#49cfff,#9670ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.loader-line {
+  width:150px;
+  height:3px;
+  background:#20294d;
+  overflow:hidden;
+  border-radius:10px;
+}
+
+.loader-line::after {
+  content:"";
+  display:block;
+  width:45%;
+  height:100%;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  animation:loading 1.1s infinite;
+}
+
+@keyframes loading {
+  from {transform:translateX(-110%)}
+  to {transform:translateX(330%)}
+}
+
+#background {
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 15% 15%,rgba(56,83,255,.19),transparent 38%),
+    radial-gradient(ellipse at 85% 40%,rgba(133,66,255,.16),transparent 40%),
+    radial-gradient(ellipse at 50% 100%,rgba(22,148,255,.12),transparent 40%),
+    #080b20;
+}
+
+#particles {
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.particle {
+  position:absolute;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#66caff;
+  opacity:.5;
+  box-shadow:0 0 12px #48dcff;
+  animation:float 9s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%,100% {transform:translateY(0);opacity:.2}
+  50% {transform:translateY(-50px);opacity:.8}
+}
+
+header {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  padding:17px 6%;
+  background:rgba(8,11,32,.72);
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav {
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font:800 20px 'Space Grotesk';
+  letter-spacing:2px;
+}
+
+.brand-icon {
+  width:37px;
+  height:37px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(75,183,255,.6);
+  border-radius:12px;
+  color:var(--cyan);
+  background:linear-gradient(135deg,rgba(66,107,255,.3),rgba(150,101,255,.2));
+  box-shadow:0 0 22px rgba(66,107,255,.2);
+}
+
+.nav-links {
+  display:flex;
+  align-items:center;
+  gap:29px;
+  font-size:13px;
+  color:#bac5e5;
+}
+
+.nav-links a {
+  transition:.3s;
+}
+
+.nav-links a:hover {
+  color:var(--cyan);
+}
+
+.nav-contact {
+  padding:11px 18px;
+  border:1px solid rgba(72,220,255,.4);
+  border-radius:9px;
+  color:var(--cyan)!important;
+}
+
+.menu-btn {
+  display:none;
+  background:none;
+  color:white;
+  border:0;
+  font-size:27px;
+  cursor:pointer;
+}
+
+main {
+  max-width:1250px;
+  margin:auto;
+  padding:0 6%;
+}
+
+.hero {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:50px;
+  padding-top:110px;
+}
+
+.hero-content {
+  max-width:650px;
+  animation:enter 1s both;
+}
+
+@keyframes enter {
+  from {opacity:0;transform:translateY(35px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 14px;
+  border:1px solid rgba(72,220,255,.25);
+  border-radius:30px;
+  background:rgba(66,107,255,.1);
+  color:#8ce6ff;
+  font-size:11px;
+  letter-spacing:2px;
+  margin-bottom:27px;
+}
+
+.status-dot {
+  width:7px;
+  height:7px;
+  background:#50e5b0;
+  border-radius:50%;
+  box-shadow:0 0 10px #50e5b0;
+}
+
+.hero h1 {
+  font:900 clamp(48px,8vw,92px)/1.02 'Space Grotesk';
+  letter-spacing:-5px;
+}
+
+.gradient-text {
+  background:linear-gradient(100deg,#fff 5%,#55cfff 48%,#a47aff 95%);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p {
+  color:var(--muted);
+  max-width:530px;
+  line-height:1.9;
+  font-size:15px;
+  margin:27px 0 32px;
+}
+
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:13px;
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:14px 21px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:700;
+  transition:.3s;
+  cursor:pointer;
+}
+
+.btn-primary {
+  background:linear-gradient(110deg,#426bff,#7654ed);
+  box-shadow:0 8px 30px rgba(66,107,255,.27);
+}
+
+.btn-primary:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 35px rgba(66,107,255,.45);
+}
+
+.btn-secondary {
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.035);
+}
+
+.btn-secondary:hover {
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
+
+.hero-visual {
+  width:min(400px,40vw);
+  aspect-ratio:1;
+  position:relative;
+  display:grid;
+  place-items:center;
+  animation:enter 1.2s both;
+}
+
+.orbit {
+  position:absolute;
+  width:90%;
+  height:90%;
+  border:1px solid rgba(75,170,255,.25);
+  border-radius:50%;
+  animation:spin 18s linear infinite;
+}
+
+.orbit.two {
+  width:72%;
+  height:72%;
+  border-color:rgba(160,100,255,.35);
+  animation-direction:reverse;
+  animation-duration:13s;
+}
+
+.orbit::before {
+  content:"";
+  position:absolute;
+  top:10%;
+  left:13%;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 20px var(--cyan);
+}
+
+@keyframes spin {
+  to {transform:rotate(360deg)}
+}
+
+.core {
+  width:48%;
+  height:48%;
+  display:grid;
+  place-items:center;
+  border-radius:35%;
+  background:linear-gradient(140deg,rgba(66,107,255,.25),rgba(150,101,255,.17));
+  border:1px solid rgba(110,183,255,.45);
+  box-shadow:0 0 80px rgba(66,107,255,.25),inset 0 0 35px rgba(72,220,255,.08);
+  font:900 65px 'Space Grotesk';
+  color:white;
+  text-shadow:0 0 30px var(--cyan);
+  animation:pulse 4s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  50% {box-shadow:0 0 100px rgba(66,107,255,.45),inset 0 0 45px rgba(72,220,255,.18)}
+}
+
+section {
+  padding:105px 0;
+}
+
+.section-head {
+  text-align:center;
+  max-width:650px;
+  margin:0 auto 48px;
+}
+
+.section-tag {
+  color:var(--cyan);
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:800;
+}
+
+.section-head h2 {
+  font:800 clamp(30px,5vw,48px) 'Space Grotesk';
+  margin:16px 0;
+}
+
+.section-head p {
+  color:var(--muted);
+  line-height:1.8;
+  font-size:14px;
+}
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:20px;
+}
+
+.stat {
+  text-align:center;
+  padding:23px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(15,23,55,.5);
+}
+
+.stat strong {
+  display:block;
+  font:800 28px 'Space Grotesk';
+  color:var(--cyan);
+}
+
+.stat span {
+  color:var(--muted);
+  font-size:11px;
+  margin-top:7px;
+  display:block;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card {
+  padding:25px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:linear-gradient(145deg,rgba(20,30,73,.8),rgba(12,17,42,.75));
+  transition:.35s;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before {
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  background:rgba(66,107,255,.12);
+  filter:blur(65px);
+  right:-100px;
+  top:-100px;
+}
+
+.card:hover {
+  transform:translateY(-8px);
+  border-color:rgba(72,220,255,.48);
+  box-shadow:0 15px 45px rgba(0,0,0,.2);
+}
+
+.card-icon {
+  width:48px;
+  height:48px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  background:rgba(66,107,255,.16);
+  border:1px solid rgba(72,220,255,.2);
+  color:var(--cyan);
+  font-size:22px;
+  margin-bottom:22px;
+}
+
+.card h3 {
+  font:700 19px 'Space Grotesk';
+  margin-bottom:12px;
+}
+
+.card p {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+}
+
+.project-label {
+  display:inline-block;
+  margin-top:22px;
+  font-size:10px;
+  color:#8ce6ff;
+  letter-spacing:1.5px;
+}
+
+.project-link {
+  display:inline-block;
+  margin-top:20px;
+  color:var(--cyan);
+  font-size:12px;
+  font-weight:700;
+}
+
+.about-box {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:45px;
+  align-items:center;
+  padding:40px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:linear-gradient(130deg,rgba(23,36,85,.65),rgba(14,18,43,.8));
+}
+
+.about-symbol {
+  display:grid;
+  place-items:center;
+  min-height:260px;
+  color:var(--cyan);
+  font:700 80px 'Space Grotesk';
+  text-shadow:0 0 35px rgba(72,220,255,.5);
+}
+
+.about-text h2 {
+  font:800 35px 'Space Grotesk';
+  margin-bottom:18px;
+}
+
+.about-text p {
+  color:var(--muted);
+  line-height:1.9;
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.skills {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:23px;
+}
+
+.skill {
+  padding:9px 12px;
+  background:rgba(66,107,255,.12);
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:11px;
+  color:#b8dfff;
+}
+
+.contact-box {
+  text-align:center;
+  padding:55px 25px;
+  border:1px solid rgba(72,220,255,.2);
+  border-radius:22px;
+  background:radial-gradient(ellipse at center,rgba(66,107,255,.16),rgba(14,18,43,.7));
+}
+
+.contact-box h2 {
+  font:800 clamp(30px,5vw,45px) 'Space Grotesk';
+  margin:15px 0;
+}
+
+.contact-box p {
+  color:var(--muted);
+  line-height:1.8;
+  font-size:14px;
+  margin-bottom:25px;
+}
+
+.email-list {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:20px 0 28px;
+}
+
+.email {
+  padding:12px 15px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  font-size:12px;
+  color:#a9dcff;
+  background:rgba(8,11,32,.5);
+}
+
+footer {
+  border-top:1px solid var(--border);
+  padding:35px 6%;
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  line-height:2;
+}
+
+footer strong {
+  color:var(--cyan);
+}
+
+.reveal {
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .8s,transform .8s;
+}
+
+.reveal.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:850px) {
+  .hero {flex-direction:column;text-align:center;padding-top:145px;gap:35px}
+  .hero-content {display:flex;align-items:center;flex-direction:column}
+  .hero-visual {width:min(320px,80vw)}
+  .grid {grid-template-columns:repeat(2,1fr)}
+  .about-box {grid-template-columns:1fr;gap:15px}
+  .about-symbol {min-height:150px}
+}
+@media(max-width:600px) {
+  header {
+    padding: 13px 5%;
+  }
+
+  .nav {
+    position: relative;
+    width: 100%;
+  }
+
+  .menu-btn {
+    display: flex;
+    margin-left: auto;
+    margin-right: 5px;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    width: auto;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 12px;
+    background: #101735;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    z-index: 1001;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 14px;
+  }
+}
+ display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 99999 !important;
+  width: 49px;
+  height: 45px;
+  background: #14275c !important;
+  border: 2px solid cyan !important;
+}
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.social-icons a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 17px;
+  color: #dceaff;
+  font-size: 15px;
+  text-decoration: none;
+  border: 1px solid rgba(72,220,255,.3);
+  border-radius: 13px;
+  background: rgba(72,220,255,.06);
+  transition: .3s;
+}
+
+.social-icons i {
+  font-size: 25px;
+  color: #48dcff;
+}
+
+.social-icons a:hover {
+  transform: translateY(-4px);
+  border-color: #48dcff;
+  box-shadow: 0 0 18px rgba(72,220,255,.25);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+  <div class="loader-logo">SHIDO DEV</div>
+  <div class="loader-line"></div>
+  <small style="color:#8292c2;letter-spacing:3px;font-size:9px">
+    INITIALIZING EXPERIENCE
+  </small>
+</div>
+
+<div id="background"></div>
+<div id="particles"></div>
+
+<header>
+  <nav class="nav">
+    <a href="#home" class="brand">
+      <span class="brand-icon">S</span>
+      SHIDO<span style="color:#51d9ff">DEV</span>
+    </a>
+
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Accueil</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projets</a>
+      <a href="#about">À propos</a>
+      <a href="#contact" class="nav-contact">Contact ↗</a>
+    </div>
+
+    <button class="menu-btn" id="menuBtn"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+   </button>
+  </nav>
+</header>
+
+  <section class="hero" id="home">
+  <div class="hero-content">
+    <div class="eyebrow">
+      <span class="status-dot"></span>
+      INDEPENDENT DIGITAL DEVELOPER
+    </div>
+
+
+    <h1>
+      BUILDING<br>
+      <span class="gradient-text">THE FUTURE.</span>
+    </h1>
+
+    <p>
+      Je transforme des idées en expériences numériques.
+      Développement web, intelligence artificielle et technologies
+      créatives. Bienvenue dans l'univers SHIDO DEV.
+    </p>
+
+    <div class="actions">
+      <a href="#projects" class="btn btn-primary">Explorer mes projets ↗</a>
+      <a href="#about" class="btn btn-secondary">Découvrir SHIDO DEV</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="orbit"></div>
+    <div class="orbit two"></div>
+    <div class="core">S</div>
+  </div>
+</section>
+
+<section id="services" class="reveal">
+  <div class="section-head">
+    <span class="section-tag">WHAT I CREATE</span>
+    <h2>Technologie & <span class="gradient-text">Créativité</span></h2>
+    <p>Des solutions numériques conçues autour de la technologie, de l'innovation et de l'expérience utilisateur.</p>
+  </div>
+
+  <div class="grid">
+    <article class="card">
+      <div class="card-icon">⌘</div>
+      <h3>Web Development</h3>
+      <p>Création de sites web modernes, interfaces interactives et expériences numériques adaptées aux appareils mobiles.</p>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">✧</div>
+      <h3>Artificial Intelligence</h3>
+      <p>Conception d'assistants intelligents, systèmes automatisés et expériences basées sur l'intelligence artificielle.</p>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">◈</div>
+      <h3>Digital Innovation</h3>
+      <p>Exploration de nouvelles idées, développement d'outils et création de projets technologiques originaux.</p>
+    </article>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <div class="section-head">
+    <span class="section-tag">SELECTED PROJECTS</span>
+    <h2>My <span class="gradient-text">Universe</span></h2>
+    <p>Quelques projets qui représentent la vision et l'ambition de SHIDO DEV.</p>
+  </div>
+
+  <div class="grid">
+    <article class="card">
+      <div class="card-icon">◉</div>
+      <h3>LAST DECREE</h3>
+      <p>Un univers numérique indépendant réunissant technologie, communauté, systèmes interactifs et expériences immersives.</p>
+      <span class="project-label">DIGITAL ORGANISATION</span>
+      <br>
+      <a class="project-link" href="https://github.com/yogiri-andrew/LAST-DECREE-PORTAL" target="_blank" rel="noopener">Explorer le projet ↗</a>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">✦</div>
+      <h3>SHIDO AI</h3>
+      <p>Un projet d'intelligence artificielle indépendant, conçu pour évoluer vers un assistant intelligent doté de sa propre identité.</p>
+      <span class="project-label">ARTIFICIAL INTELLIGENCE</span>
+      <br>
+      <a class="project-link" href="#contact">En savoir plus ↗</a>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">⚔</div>
+      <h3>SHIDO ZERO PROTOCOL</h3>
+      <p>Un concept de jeu d'action inspiré de l'univers anime, avec une direction artistique et un gameplay originaux.</p>
+      <span class="project-label">GAME DEVELOPMENT</span>
+      <br>
+      <a class="project-link" href="#contact">En savoir plus ↗</a>
+    </article>
+  </div>
+</section>
+
+<section id="about" class="reveal">
+  <div class="about-box">
+    <div class="about-symbol">
+     <div>╱╲</div>
+  <div>◆ SHIDO◆</div>
+     <div>╲╱</div>
+    </div>
+
+    <div class="about-text">
+      <span class="section-tag">ABOUT THE DEVELOPER</span>
+      <h2>Beyond the <span class="gradient-text">ordinary.</span></h2>
+      <p>
+        SHIDO DEV est un espace dédié à la création technologique.
+        Chaque projet est une occasion d'apprendre, d'expérimenter
+        et de construire quelque chose de nouveau.
+      </p>
+      <p>
+        L'objectif : développer un univers indépendant où
+        créativité, intelligence et technologie se rencontrent.
+      </p>
+
+      <div class="skills">
+        <span class="skill">HTML / CSS</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">Node.js</span>
+        <span class="skill">Artificial Intelligence</span>
+        <span class="skill">Creative Technology</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="reveal">
+  <div class="contact-box">
+    <span class="section-tag">GET IN TOUCH</span>
+    <h2>Let's build something <span class="gradient-text">great.</span></h2>
+    <p>Une idée, un projet ou une demande ? Contacte SHIDO DEV.</p>
+
+    <div class="email-list">
+      <a class="email" href="mailto:shidodev@gmail.com">shidodev@gmail.com</a>
+      <a class="email" href="mailto:shidodevsupport@gmail.com">shidodevsupport@gmail.com</a>
+    </div>
+
+    <a href="mailto:shidodev@gmail.com" class="btn btn-primary">Contacter SHIDO DEV ↗</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div style="font:800 19px 'Space Grotesk';letter-spacing:3px;color:white">
+    SHIDO DEV<span style="color:#48dcff">DEV</span>
+  </div>
+
+  <p>Independent Developer · Digital Innovation</p>
+
+    <div class="social-icons">
+  <a href="https://x.com/IreneLeand8157" target="_blank" rel="noopener" aria-label="X">
+    <i class="fa-brands fa-x-twitter"></i><span>X</span>
+  </a>
+
+  <a href="https://discord.gg/uuCMFEhW" target="_blank" rel="noopener" aria-label="Discord">
+    <i class="fa-brands fa-discord"></i><span>Discord</span>
+  </a>
+
+  <a href="https://www.youtube.com/@shido-dev" target="_blank" rel="noopener" aria-label="YouTube">
+    <i class="fa-brands fa-youtube"></i><span>YouTube</span>
+  </a>
+
+  <a href="https://www.instagram.com/ld.shido?dlrf=MWxneXZuN3ZhNWFv" target="_blank" rel="noopener" aria-label="Instagram">
+    <i class="fa-brands fa-instagram"></i><span>Instagram</span>
+  </a>
+
+  <a href="https://www.facebook.com/share/1Fek1sDBRR/" target="_blank" rel="noopener" aria-label="Facebook">
+    <i class="fa-brands fa-facebook"></i><span>Facebook</span>
+  </a>
+
+  <a href="https://wa.me/242067614342" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span>
+  </a>
+
+  <a href="https://t.me/+242067614342" target="_blank" rel="noopener" aria-label="Telegram">
+    <i class="fa-brands fa-telegram"></i><span>Telegram</span>
+  </a>
+</div>
+ 
+  <p>© <span id="year"></span> SHIDO DEV. All rights reserved.</p>
+  <p><strong>MADE BY THE OWNER & FOUNDER SHIDO DEV</strong></p>
+</footer>
+
+
+<script>
+"use strict";
+
+// Loading screen
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("loader").classList.add("hide");
+  }, 700);
+});
+
+// Mobile navigation
+document.addEventListener("DOMContentLoaded", () => {
+  const menuBtn = document.getElementById("menuBtn");
+  const navLinks = document.getElementById("navLinks");
+
+  if (!menuBtn || !navLinks) return;
+
+  menuBtn.addEventListener("click", () => {
+    const opened = navLinks.classList.toggle("open");
+
+    menuBtn.classList.toggle("active", opened);
+    menuBtn.setAttribute("aria-expanded", String(opened));
+  });
+
+  navLinks.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuBtn.classList.remove("active");
+      menuBtn.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+// Reveal animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.12});
+
+document.querySelectorAll(".reveal").forEach(element => {
+  observer.observe(element);
+});
+
+// Background particles
+const particleContainer = document.getElementById("particles");
+
+for (let i = 0; i < 35; i++) {
+  const particle = document.createElement("span");
+  particle.className = "particle";
+  particle.style.left = Math.random() * 100 + "%";
+  particle.style.top = Math.random() * 100 + "%";
+  particle.style.animationDelay = Math.random() * 8 + "s";
+  particle.style.animationDuration = (6 + Math.random() * 8) + "s";
+  particleContainer.appendChild(particle);
+}
+
+// Dynamic year
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
